@@ -28,3 +28,62 @@ def extract_markdown_images(text):
 
 def extract_markdown_links(text):
     return re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+
+#Split Images and Links
+def split_nodes_image(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        if node.text_type == TextType.IMAGE:
+            new_nodes.append(node)
+            continue
+        sentence = node.text
+        markdown = extract_markdown_images(sentence)
+        if markdown == []:
+            new_nodes.append(node)
+        else:
+            while markdown != []:
+                full_mark = f"![{markdown[0][0]}]({markdown[0][1]})"
+                mark_list = sentence.split(full_mark, maxsplit = 1)
+
+                if mark_list[0] != "":
+                    text_node = TextNode(mark_list[0], TextType.TEXT)
+                    new_nodes.append(text_node)
+
+                image_node = TextNode(markdown[0][0], TextType.IMAGE, markdown[0][1])
+                new_nodes.append(image_node)
+                sentence = mark_list[1]
+                markdown.pop(0)
+
+            if sentence != "":
+                text_node = TextNode(sentence, TextType.TEXT)
+                new_nodes.append(text_node)
+    return new_nodes
+
+def split_nodes_link(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        if node.text_type == TextType.LINK:
+            new_nodes.append(node)
+            continue
+        sentence = node.text
+        markdown = extract_markdown_links(sentence)
+        if markdown == []:
+            new_nodes.append(node)
+        else:
+            while markdown != []:
+                full_mark = f"[{markdown[0][0]}]({markdown[0][1]})"
+                mark_list = sentence.split(full_mark, maxsplit = 1)
+
+                if mark_list[0] != "":
+                    text_node = TextNode(mark_list[0], TextType.TEXT)
+                    new_nodes.append(text_node)
+
+                link_node = TextNode(markdown[0][0], TextType.LINK, markdown[0][1])
+                new_nodes.append(link_node)
+                sentence = mark_list[1]
+                markdown.pop(0)
+
+            if sentence != "":
+                text_node = TextNode(sentence, TextType.TEXT)
+                new_nodes.append(text_node)
+    return new_nodes
