@@ -17,7 +17,6 @@ class TestSplitNodesDelimiter(unittest.TestCase):
         new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
         self.assertEqual(new_nodes, [
             TextNode("text ", TextType.TEXT),
-            TextNode("", TextType.CODE),
             TextNode(" more text", TextType.TEXT),
             ])
         
@@ -25,11 +24,7 @@ class TestSplitNodesDelimiter(unittest.TestCase):
         node = TextNode("``text block``", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
         self.assertEqual(new_nodes, [
-            TextNode("", TextType.TEXT), 
-            TextNode("", TextType.CODE),
-            TextNode("text block", TextType.TEXT),
-            TextNode("", TextType.CODE),
-            TextNode("", TextType.TEXT)
+            TextNode("text block", TextType.TEXT)
             ])
 
 if __name__ == "__main__":
