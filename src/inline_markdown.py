@@ -45,6 +45,9 @@ def split_nodes_image(old_nodes):
                 full_mark = f"![{markdown[0][0]}]({markdown[0][1]})"
                 mark_list = sentence.split(full_mark, maxsplit = 1)
 
+                if len(mark_list) != 2:
+                    raise ValueError("invalid markdown, image section not closed")
+
                 if mark_list[0] != "":
                     text_node = TextNode(mark_list[0], TextType.TEXT)
                     new_nodes.append(text_node)
@@ -73,6 +76,9 @@ def split_nodes_link(old_nodes):
             while markdown != []:
                 full_mark = f"[{markdown[0][0]}]({markdown[0][1]})"
                 mark_list = sentence.split(full_mark, maxsplit = 1)
+
+                if len(mark_list) != 2:
+                    raise ValueError("invalid markdown, link section not closed")
 
                 if mark_list[0] != "":
                     text_node = TextNode(mark_list[0], TextType.TEXT)
