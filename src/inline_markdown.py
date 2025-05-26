@@ -87,3 +87,14 @@ def split_nodes_link(old_nodes):
                 text_node = TextNode(sentence, TextType.TEXT)
                 new_nodes.append(text_node)
     return new_nodes
+
+#Text to TextNodes
+def text_to_textnodes(text):
+    text_node = [TextNode(text, TextType.TEXT)]
+    image_nodes = split_nodes_image(text_node)
+    link_nodes = split_nodes_link(image_nodes)
+    code_node = split_nodes_delimiter(link_nodes, "`", TextType.CODE)
+    italic_node = split_nodes_delimiter(code_node, "_", TextType.ITALIC)
+    bold_node = split_nodes_delimiter(italic_node, "**", TextType.BOLD)
+    second_italic_node = split_nodes_delimiter(bold_node, "*", TextType.ITALIC)
+    return second_italic_node
