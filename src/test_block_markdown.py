@@ -1,5 +1,5 @@
 import unittest
-from block_markdown import BlockType, markdown_to_blocks, block_to_block_type
+from block_markdown import BlockType, markdown_to_blocks, block_to_block_type, markdown_to_html_node
 
 class TestSplitBlocks(unittest.TestCase):
     def test_markdown_to_blocks(self):
@@ -62,3 +62,21 @@ class TestBlockToBlockType(unittest.TestCase):
         new_block = block_to_block_type(block)
         self.assertNotEqual(new_block, BlockType.UNORDERED_LIST)
         self.assertEqual(new_block, BlockType.PARAGRAPH)
+
+class BlockToHTML(unittest.TestCase):
+    def test_paragraphs(self):
+        md = """
+This is **bolded** paragraph
+text in a p
+tag here
+
+This is another paragraph with _italic_ text and `code` here
+
+"""
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+        html,
+        "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>",
+    )
