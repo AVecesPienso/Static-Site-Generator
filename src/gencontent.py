@@ -16,15 +16,15 @@ def generate_page(from_path, template_path, dest_path, basepath):
     html = node.to_html()
 
     title = extract_title(markdown_content)
-    template = template.replace("{{ Title }}", title)
-    template = template.replace("{{ Content }}", html)
-    template = template.replace('href="/', f'href="{basepath}').replace('src="/', f'src="{basepath}')
+    template1 = template.replace("{{ Title }}", title)
+    template2 = template1.replace("{{ Content }}", html)
+    template3 = template2.replace('href="/', f'href="{basepath}').replace('src="/', f'src="{basepath}')
 
     dest_dir_path = os.path.dirname(dest_path)
     if dest_dir_path != "":
         os.makedirs(dest_dir_path, exist_ok=True)
     to_file = open(dest_path, "w")
-    to_file.write(template)
+    to_file.write(template3)
 
 def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     input_list = os.listdir(dir_path_content)
