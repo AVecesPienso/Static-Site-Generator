@@ -24,6 +24,7 @@ def generate_page(from_path, template_path, dest_path, basepath):
     title = extract_title(markdown_content)
     template = template.replace("{{ Title }}", title)
     template = template.replace("{{ Content }}", new_html)
+    template = template.replace("href=\"/", f"href=\"{basepath}").replace("src=\"/", f"src=\"{basepath}")
 
     dest_dir_path = os.path.dirname(dest_path)
     if dest_dir_path != "":
