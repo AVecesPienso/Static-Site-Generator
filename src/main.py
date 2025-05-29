@@ -11,8 +11,6 @@ dir_path_contact = "./content/contact"
 def main():
     if len(sys.argv) > 1:
         basepath = sys.argv[1]
-    else:
-        basepath = "/"
 
     print("Deleting public directory...")
     if os.path.exists(dir_path_docs):
